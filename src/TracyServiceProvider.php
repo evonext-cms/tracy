@@ -1,24 +1,24 @@
 <?php
 
-namespace Recca0120\LaravelTracy;
+namespace EvoNext\Tracy;
 
+use EvoNext\Tracy\Exceptions\Handler;
+use EvoNext\Tracy\Exceptions\HandlerForLaravel6;
+use EvoNext\Tracy\Middleware\RenderBar;
+use EvoNext\Tracy\Session\DeferredContent;
+use EvoNext\Tracy\Session\Session;
+use EvoNext\Tracy\TerminalServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Contracts\View\Factory as View;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Recca0120\LaravelTracy\Exceptions\Handler;
-use Recca0120\LaravelTracy\Exceptions\HandlerForLaravel6;
-use Recca0120\LaravelTracy\Middleware\RenderBar;
-use Recca0120\LaravelTracy\Session\DeferredContent;
-use Recca0120\LaravelTracy\Session\Session;
-use Recca0120\Terminal\TerminalServiceProvider;
 use Tracy\Bar;
 use Tracy\BlueScreen;
 use Tracy\Debugger;
 
-class LaravelTracyServiceProvider extends ServiceProvider
+class TracyServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -32,7 +32,7 @@ class LaravelTracyServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Recca0120\LaravelTracy\Http\Controllers';
+    protected $namespace = 'EvoNext\Tracy\Http\Controllers';
 
     /**
      * boot.
@@ -105,12 +105,12 @@ class LaravelTracyServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(DebuggerManager::class, function ($app) use ($config) {
-            $config = DebuggerManager::init($config);
+            $config     = DebuggerManager::init($config);
             $blueScreen = $app[BlueScreen::class];
-            $bar = $app[Bar::class];
-            $defer = new DeferredContent($bar, new Session);
-            $routeAs = Arr::get($config, 'route.as');
-            $url = $routeAs ? $app['url']->route($routeAs.'bar') : null;
+            $bar        = $app[Bar::class];
+            $defer      = new DeferredContent($bar, new Session());
+            $routeAs    = Arr::get($config, 'route.as');
+            $url        = $routeAs ? $app['url']->route($routeAs.'bar') : null;
 
             return new DebuggerManager($config, $blueScreen, $bar, $defer, $url);
         });

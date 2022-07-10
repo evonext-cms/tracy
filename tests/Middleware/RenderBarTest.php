@@ -1,15 +1,15 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Middleware;
+namespace EvoNext\Tracy\Tests\Middleware;
 
+use EvoNext\Tracy\DebuggerManager;
+use EvoNext\Tracy\Events\BeforeBarRender;
+use EvoNext\Tracy\Middleware\RenderBar;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\DebuggerManager;
-use Recca0120\LaravelTracy\Events\BeforeBarRender;
-use Recca0120\LaravelTracy\Middleware\RenderBar;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

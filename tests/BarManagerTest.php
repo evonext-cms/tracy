@@ -1,13 +1,13 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests;
+namespace EvoNext\Tracy\Tests;
 
+use EvoNext\Tracy\BarManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\BarManager;
 use Tracy\Bar;
 use Tracy\IBarPanel;
 

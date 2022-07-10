@@ -1,11 +1,11 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
 use PDO;
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 
 class DatabasePanel extends AbstractSubscribePanel implements IAjaxPanel
 {

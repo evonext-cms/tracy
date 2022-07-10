@@ -1,10 +1,10 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use Closure;
 use Illuminate\Support\Arr;
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 
 class AuthPanel extends AbstractPanel implements IAjaxPanel
 {

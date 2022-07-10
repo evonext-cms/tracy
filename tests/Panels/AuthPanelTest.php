@@ -1,14 +1,14 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
+use EvoNext\Tracy\Panels\AuthPanel;
+use EvoNext\Tracy\Template;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Application;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\AuthPanel;
-use Recca0120\LaravelTracy\Template;
 use stdClass;
 
 class AuthPanelTest extends TestCase

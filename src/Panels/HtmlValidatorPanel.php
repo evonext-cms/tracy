@@ -1,11 +1,11 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use DOMDocument;
 use LibXMLError;
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
-use Recca0120\LaravelTracy\Events\BeforeBarRender;
+use EvoNext\Tracy\Contracts\IAjaxPanel;
+use EvoNext\Tracy\Events\BeforeBarRender;
 
 class HtmlValidatorPanel extends AbstractSubscribePanel implements IAjaxPanel
 {

@@ -1,7 +1,12 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests;
+namespace EvoNext\Tracy\Tests;
 
+use EvoNext\Tracy\DebuggerManager;
+use EvoNext\Tracy\Exceptions\Handler;
+use EvoNext\Tracy\Exceptions\HandlerForLaravel6;
+use EvoNext\Tracy\Middleware\RenderBar;
+use EvoNext\Tracy\TracyServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Http\Kernel;
@@ -9,28 +14,23 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\DebuggerManager;
-use Recca0120\LaravelTracy\Exceptions\Handler;
-use Recca0120\LaravelTracy\Exceptions\HandlerForLaravel6;
-use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
-use Recca0120\LaravelTracy\Middleware\RenderBar;
 use Recca0120\Terminal\TerminalServiceProvider;
 use Tracy\BlueScreen;
 
-class LaravelTracyServiceProviderTest extends TestCase
+class TracyServiceProviderTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
     public function testRegister()
     {
-        $app = m::spy(new Application());
+        $app    = m::spy(new Application());
         $config = new Repository();
         $app->instance('config', $config);
         $config->set('tracy', ['panels' => ['terminal' => true]]);
-        $serviceProvider = new LaravelTracyServiceProvider($app);
+        $serviceProvider = new TracyServiceProvider($app);
 
         $serviceProvider->register();
 
@@ -41,15 +41,15 @@ class LaravelTracyServiceProviderTest extends TestCase
 
     public function testBoot()
     {
-        $app = m::spy(new Application());
+        $app    = m::spy(new Application());
         $config = new Repository();
         $app->instance('request', Request::capture());
         $app->instance('config', $config);
         $config->set('tracy', [
             'enabled' => true,
-            'route' => ['prefix' => 'laravel-tracy', 'showException' => true],
+            'route'   => ['prefix' => 'laravel-tracy', 'showException' => true],
         ]);
-        $serviceProvider = new LaravelTracyServiceProvider($app);
+        $serviceProvider = new TracyServiceProvider($app);
 
         $app->expects('routesAreCached')->andReturns(false);
         $app->expects('runningInConsole')->andReturns(false);
@@ -79,26 +79,26 @@ class LaravelTracyServiceProviderTest extends TestCase
             }))->once();
         $kernel->shouldHaveReceived('prependMiddleware')->with(RenderBar::class);
         $router->shouldHaveReceived('group')->with(array_merge([
-            'namespace' => 'Recca0120\LaravelTracy\Http\Controllers',
+            'namespace' => 'EvoNext\Tracy\Http\Controllers',
         ], $config['tracy']['route']), m::type('Closure'));
     }
 
     public function testBootRunningInConsole()
     {
-        $app = m::spy(new Application());
+        $app                = m::spy(new Application());
         $app['path.config'] = '';
 
         $config = new Repository();
         $config->set('tracy', ['panels' => ['terminal' => true]]);
         $app->instance('config', $config);
 
-        $serviceProvider = new LaravelTracyServiceProvider($app);
+        $serviceProvider = new TracyServiceProvider($app);
 
         $app->expects('routesAreCached')->andReturns(false);
         $app->expects('runningInConsole')->andReturns(true);
 
         $kernel = m::spy(Kernel::class);
-        $view = m::spy(Factory::class);
+        $view   = m::spy(Factory::class);
         $router = m::spy(Router::class);
 
         $serviceProvider->boot($kernel, $view, $router);
@@ -106,11 +106,11 @@ class LaravelTracyServiceProviderTest extends TestCase
 
     public function testProviders()
     {
-        $app = m::spy(new Application());
+        $app    = m::spy(new Application());
         $config = new Repository();
         $app->instance('config', $config);
         $config->set('tracy', ['panels' => ['terminal' => true]]);
-        $serviceProvider = new LaravelTracyServiceProvider($app);
+        $serviceProvider = new TracyServiceProvider($app);
 
         $this->assertSame([ExceptionHandler::class], $serviceProvider->provides());
     }

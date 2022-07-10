@@ -1,13 +1,13 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Exceptions;
+namespace EvoNext\Tracy\Exceptions;
 
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Recca0120\LaravelTracy\DebuggerManager;
+use EvoNext\Tracy\DebuggerManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;

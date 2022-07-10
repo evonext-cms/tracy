@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\LaravelTracy;
+namespace EvoNext\Tracy;
 
 class Template
 {

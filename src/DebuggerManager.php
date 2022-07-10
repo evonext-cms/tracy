@@ -1,12 +1,12 @@
 <?php
 
-namespace Recca0120\LaravelTracy;
+namespace EvoNext\Tracy;
 
 use ErrorException;
 use Exception;
 use Illuminate\Support\Arr;
-use Recca0120\LaravelTracy\Session\DeferredContent;
-use Recca0120\LaravelTracy\Session\Session;
+use EvoNext\Tracy\Session\DeferredContent;
+use EvoNext\Tracy\Session\Session;
 use Throwable;
 use Tracy\Bar;
 use Tracy\BlueScreen;

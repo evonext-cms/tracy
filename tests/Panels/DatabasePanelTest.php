@@ -1,18 +1,18 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
+use EvoNext\Tracy\Panels\DatabasePanel;
+use EvoNext\Tracy\Template;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Connection;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Foundation\Application;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\DatabasePanel;
-use Recca0120\LaravelTracy\Template;
 use stdClass;
 
 class DatabasePanelTest extends TestCase

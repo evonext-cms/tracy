@@ -1,10 +1,10 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use Illuminate\Contracts\Foundation\Application;
-use Recca0120\LaravelTracy\Contracts\ILaravelPanel;
-use Recca0120\LaravelTracy\Template;
+use EvoNext\Tracy\Contracts\ILaravelPanel;
+use EvoNext\Tracy\Template;
 use Tracy\Helpers;
 use Tracy\IBarPanel;
 

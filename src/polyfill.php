@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\LaravelTracy
+namespace EvoNext\Tracy
 {
     if (function_exists('escapeshellarg') === true) {
         function escapeshellarg($input)
@@ -21,6 +21,6 @@ namespace Tracy
 {
     function escapeshellarg($input)
     {
-        return \Recca0120\LaravelTracy\escapeshellarg($input);
+        return \EvoNext\Tracy\escapeshellarg($input);
     }
 }

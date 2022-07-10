@@ -1,14 +1,14 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Http\Controllers;
+namespace EvoNext\Tracy\Tests\Http\Controllers;
 
+use EvoNext\Tracy\DebuggerManager;
+use EvoNext\Tracy\Http\Controllers\LaravelTracyController;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\DebuggerManager;
-use Recca0120\LaravelTracy\Http\Controllers\LaravelTracyController;
 use Symfony\Component\HttpFoundation\Response;
 
 class LaravelTracyControllerTest extends TestCase

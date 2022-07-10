@@ -1,9 +1,9 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests;
+namespace EvoNext\Tracy\Tests;
 
+use EvoNext\Tracy\Session\Session;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Session\Session;
 
 class SessionTest extends TestCase
 {

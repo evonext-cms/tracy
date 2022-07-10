@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Contracts;
+namespace EvoNext\Tracy\Contracts;
 
 interface IAjaxPanel
 {

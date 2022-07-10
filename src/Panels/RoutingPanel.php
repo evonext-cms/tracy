@@ -1,9 +1,9 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use Illuminate\Support\Arr;
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 
 class RoutingPanel extends AbstractPanel implements IAjaxPanel
 {

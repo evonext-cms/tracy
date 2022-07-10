@@ -1,9 +1,9 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests;
+namespace EvoNext\Tracy\Tests;
 
+use EvoNext\Tracy\Template;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Template;
 
 class TemplateTest extends TestCase
 {

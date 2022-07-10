@@ -1,8 +1,8 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 use Tracy\Debugger;
 
 class EventPanel extends AbstractSubscribePanel implements IAjaxPanel

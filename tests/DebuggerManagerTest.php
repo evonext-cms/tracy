@@ -1,15 +1,15 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests;
+namespace EvoNext\Tracy\Tests;
 
 use Closure;
+use EvoNext\Tracy\DebuggerManager;
+use EvoNext\Tracy\Session\DeferredContent;
+use EvoNext\Tracy\Session\Session;
 use Exception;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\DebuggerManager;
-use Recca0120\LaravelTracy\Session\DeferredContent;
-use Recca0120\LaravelTracy\Session\Session;
 use Tracy\Bar;
 use Tracy\BlueScreen;
 use Tracy\Debugger;

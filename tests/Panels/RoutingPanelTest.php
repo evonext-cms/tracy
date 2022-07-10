@@ -1,15 +1,15 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
+use EvoNext\Tracy\Panels\RoutingPanel;
+use EvoNext\Tracy\Template;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Route;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\RoutingPanel;
-use Recca0120\LaravelTracy\Template;
 
 class RoutingPanelTest extends TestCase
 {

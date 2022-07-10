@@ -1,14 +1,14 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
+use EvoNext\Tracy\Panels\TerminalPanel;
+use EvoNext\Tracy\Template;
 use Exception;
 use Illuminate\Foundation\Application;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\TerminalPanel;
-use Recca0120\LaravelTracy\Template;
 use Recca0120\Terminal\Http\Controllers\TerminalController;
 use Symfony\Component\HttpFoundation\Response;
 

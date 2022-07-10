@@ -1,11 +1,11 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Http\Controllers;
+namespace EvoNext\Tracy\Http\Controllers;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Recca0120\LaravelTracy\DebuggerManager;
+use EvoNext\Tracy\DebuggerManager;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LaravelTracyController extends Controller

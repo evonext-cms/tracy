@@ -1,12 +1,12 @@
 <?php
 
-namespace Recca0120\LaravelTracy;
+namespace EvoNext\Tracy;
 
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Recca0120\LaravelTracy\Contracts\IAjaxPanel;
 use Tracy\Bar;
 use Tracy\Debugger;
 use Tracy\IBarPanel;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
 use DateTime;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use EvoNext\Tracy\Panels\Helper;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\Helper;
 
 class HelperTest extends TestCase
 {

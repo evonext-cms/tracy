@@ -1,14 +1,14 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Tests\Panels;
+namespace EvoNext\Tracy\Tests\Panels;
 
+use EvoNext\Tracy\Panels\RequestPanel;
+use EvoNext\Tracy\Template;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Recca0120\LaravelTracy\Panels\RequestPanel;
-use Recca0120\LaravelTracy\Template;
 
 class RequestPanelTest extends TestCase
 {

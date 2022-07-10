@@ -1,12 +1,12 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Middleware;
+namespace EvoNext\Tracy\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Recca0120\LaravelTracy\DebuggerManager;
-use Recca0120\LaravelTracy\Events\BeforeBarRender;
+use EvoNext\Tracy\DebuggerManager;
+use EvoNext\Tracy\Events\BeforeBarRender;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

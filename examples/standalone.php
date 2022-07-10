@@ -2,7 +2,7 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use Recca0120\LaravelTracy\Tracy;
+use EvoNext\Tracy\Tracy;
 
 // before outout
 $tracy = Tracy::instance();

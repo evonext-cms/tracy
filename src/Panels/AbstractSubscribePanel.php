@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Panels;
+namespace EvoNext\Tracy\Panels;
 
 use Illuminate\Contracts\Foundation\Application;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\LaravelTracy\Events;
+namespace EvoNext\Tracy\Events;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
