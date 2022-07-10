@@ -24,19 +24,11 @@ use Tracy\Debugger;
 
 class TracyServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
+    protected bool   $defer     = false;
+    protected string $namespace = 'EvoNext\Tracy\Http\Controllers';
 
-    /**
-     * namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'EvoNext\Tracy\Http\Controllers';
+    protected ?bool $isBackend  = null;
+    protected ?bool $isTopFrame = null;
 
     /**
      * boot.
@@ -47,7 +39,7 @@ class TracyServiceProvider extends ServiceProvider
      */
     public function boot(Kernel $kernel, View $view, Router $router)
     {
-        $config = $this->app['config']['tracy'];
+        $config = $this->app['config']->get('tracy');
         $this->handleRoutes($router, Arr::get($config, 'route', []));
 
         if ($this->app->runningInConsole() === true) {
@@ -56,12 +48,11 @@ class TracyServiceProvider extends ServiceProvider
             return;
         }
 
-        $view->getEngineResolver()
-            ->resolve('blade')
-            ->getCompiler()
-            ->directive('bdump', function ($expression) {
-                return "<?php \Tracy\Debugger::barDump({$expression}); ?>";
-            });
+        /** @var \Illuminate\View\Engines\CompilerEngine $engine */
+        $engine = $view->getEngineResolver()->resolve('blade');
+        $engine->getCompiler()->directive('bdump', function ($expression) {
+            return "<?php \Tracy\Debugger::barDump($expression); ?>";
+        });
 
         $enabled = Arr::get($config, 'enabled', true) === true;
         if ($enabled === false) {
@@ -92,7 +83,12 @@ class TracyServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/tracy.php', 'tracy');
 
-        $config = Arr::get($this->app['config'], 'tracy');
+        $this->app['config']->set([
+            'tracy.enabled' => $this->checkEnabled(),
+            'tracy.showBar' => $this->checkShowBar(),
+        ]);
+
+        $config = $this->app['config']->get('tracy');
 
         // if (Arr::get($config, 'panels.terminal') === true) {
         //     $this->app->register(TerminalServiceProvider::class);
@@ -136,14 +132,71 @@ class TracyServiceProvider extends ServiceProvider
      * @param Router $router
      * @param array $config
      */
-    protected function handleRoutes(Router $router, $config = [])
+    protected function handleRoutes(Router $router, array $config = [])
     {
         if ($this->app->routesAreCached() === false) {
             $router->group(array_merge([
                 'namespace' => $this->namespace,
-            ], $config), function (Router $router) {
+            ], $config), function () {
                 require __DIR__.'/../routes/web.php';
             });
         }
+    }
+
+    protected function checkEnabled(): bool
+    {
+        $enabled = $this->app['config']->get('tracy.enabled');
+
+        return ($enabled === true
+            || ($enabled === 'manager' && $this->isBackend())
+            || ($enabled === 'web') && $this->isFrontend());
+    }
+
+    protected function checkShowBar(): bool
+    {
+        $showBar = $this->app['config']->get('tracy.showBar');
+
+        if ($showBar === false) return false;
+
+        if ($this->isFrontend()) return $showBar;
+
+        if ($this->app['config']->get('tracy.enabledInTopFrame')) return $this->isTopFrame();
+
+        return $this->isPageFrame();
+    }
+
+    protected function isTopFrame(): bool
+    {
+        if (is_null($this->isTopFrame)) {
+            if ($this->isFrontend()) return $this->isTopFrame = false;
+
+            $managerPrefix   = $this->app['config']->get('tracy.managerPrefix');
+            $managerTopRoute = $this->app['config']->get('tracy.managerTopRoute');
+
+            $this->isTopFrame = preg_match('~^/'.$managerPrefix.'/'.$managerTopRoute.'~', $this->app['request']->getRequestUri());
+        }
+
+        return $this->isTopFrame;
+    }
+
+    protected function isPageFrame(): bool
+    {
+        if ($this->isFrontend()) return false;
+        return !$this->isTopFrame();
+    }
+
+    protected function isBackend(): bool
+    {
+        if (is_null($this->isBackend)) {
+            $managerPrefix   = $this->app['config']->get('tracy.managerPrefix');
+            $this->isBackend = preg_match('~^/'.$managerPrefix.'~', $this->app['request']->getRequestUri());
+        }
+
+        return $this->isBackend;
+    }
+
+    protected function isFrontend(): bool
+    {
+        return !$this->isBackend();
     }
 }

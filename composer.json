@@ -1,5 +1,5 @@
 {
-    "name": "evonext-cms/tracy",
+    "name": "evonext/tracy",
     "description": "A EvoNext CMS Package to integrate Nette Tracy Debugger",
     "type": "package",
     "keywords": [
