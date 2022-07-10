@@ -1,51 +1,32 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy;
 
 class Template
 {
-    /**
-     * @var array
-     */
-    private $attributes = [];
-    /**
-     * @var bool
-     */
-    private $minify = true;
+    private array $attributes = [];
+    private bool  $minify     = true;
 
-    /**
-     * setAttributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
 
         return $this;
     }
 
-    /**
-     * minify.
-     *
-     * @param bool $minify
-     * @return $this
-     */
-    public function minify($minify)
+    public function minify(bool $minify)
     {
         $this->minify = $minify;
 
         return $this;
     }
 
-    /**
-     * render.
-     *
-     * @param string $view
-     * @return string
-     */
-    public function render($view)
+    public function render(string $view): string
     {
         extract($this->attributes);
 
@@ -58,15 +39,13 @@ class Template
     }
 
     /**
-     * min.
-     *
      * if need min style and script, refrence
      * https://gist.github.com/recca0120/5930842de4e0a43a48b8bf027ab058f9
      *
      * @param string $buffer
      * @return string
      */
-    private function min($buffer)
+    private function min(string $buffer): string
     {
         return preg_replace(
             ['/<!--(.*)-->/Uis', '/[[:blank:]]+/'],

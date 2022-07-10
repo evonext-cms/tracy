@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy;
 
@@ -13,63 +18,24 @@ use Tracy\IBarPanel;
 
 class BarManager
 {
-    /**
-     * $panels.
-     *
-     * @var array
-     */
-    private $panels = [];
+    private array        $panels = [];
+    private Bar          $bar;
+    private Request      $request;
+    private ?Application $app;
 
-    /**
-     * $bar.
-     *
-     * @var Bar
-     */
-    private $bar;
-
-    /**
-     * $request.
-     *
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var Application
-     */
-    private $app;
-
-    /**
-     * __construct.
-     *
-     * @param Bar $bar
-     * @param Request $request
-     * @param Application $app
-     */
     public function __construct(Bar $bar = null, Request $request = null, Application $app = null)
     {
-        $this->bar = $bar ?: Debugger::getBar();
+        $this->bar     = $bar ?: Debugger::getBar();
         $this->request = $request ?: Request::capture();
-        $this->app = $app;
+        $this->app     = $app;
     }
 
-    /**
-     * getBar.
-     *
-     * @return Bar
-     */
     public function getBar()
     {
         return $this->bar;
     }
 
-    /**
-     * loadPanels.
-     *
-     * @param array $panels
-     * @return $this
-     */
-    public function loadPanels($panels = [])
+    public function loadPanels(array $panels = [])
     {
         if (isset($panels['user']) === true) {
             $panels['auth'] = $panels['user'];
@@ -93,26 +59,6 @@ class BarManager
         return $this;
     }
 
-    /**
-     * make.
-     *
-     * @param string $id
-     * @return IBarPanel
-     */
-    private static function make($id)
-    {
-        $className = static::name($id);
-
-        return new $className(new Template());
-    }
-
-    /**
-     * set.
-     *
-     * @param IBarPanel $panel
-     * @param string $id
-     * @return $this
-     */
     public function set(IBarPanel $panel, $id)
     {
         $panel->setLaravel($this->app);
@@ -122,34 +68,23 @@ class BarManager
         return $this;
     }
 
-    /**
-     * get.
-     *
-     * @param string $id
-     * @return IBarPanel
-     */
     public function get($id)
     {
         return Arr::get($this->panels, $id);
     }
 
-    /**
-     * isAjaxPanel.
-     *
-     * @param string $id
-     * @return bool
-     */
-    private function isAjaxPanel($id)
+    private function isAjaxPanel($id): bool
     {
         return is_subclass_of(static::name($id), IAjaxPanel::class) === true;
     }
 
-    /**
-     * name.
-     *
-     * @param string $id
-     * @return string
-     */
+    private static function make($id)
+    {
+        $className = static::name($id);
+
+        return new $className(new Template());
+    }
+
     private static function name($id)
     {
         return '\\'.__NAMESPACE__.'\Panels\\'.Str::studly($id).'Panel';

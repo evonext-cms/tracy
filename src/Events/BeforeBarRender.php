@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Events;
 
@@ -7,29 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BeforeBarRender
 {
-    /**
-     * The request instance.
-     *
-     * @var Request
-     */
-    public $request;
+    public Request  $request;
+    public Response $response;
 
-    /**
-     * The response instance.
-     *
-     * @var Response
-     */
-    public $response;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param Request $request
-     * @param Response $response
-     */
     public function __construct(Request $request, Response $response)
     {
-        $this->request = $request;
+        $this->request  = $request;
         $this->response = $response;
     }
 }

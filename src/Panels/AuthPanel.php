@@ -1,10 +1,15 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
 use Closure;
-use Illuminate\Support\Arr;
 use EvoNext\Tracy\Contracts\IAjaxPanel;
+use Illuminate\Support\Arr;
 
 class AuthPanel extends AbstractPanel implements IAjaxPanel
 {
@@ -30,10 +35,9 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
 
     /**
      * getAttributes.
-     *
      ** @return array
      */
-    protected function getAttributes()
+    protected function getAttributes(): array
     {
         $attributes = [];
         if (is_null($this->userResolver) === false) {
@@ -56,10 +60,12 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
         $auth = $this->laravel['auth'];
         $user = $auth->user();
 
-        return is_null($user) === true ? [] : [
-            'id' => $user->getAuthIdentifier(),
-            'rows' => $user->toArray(),
-        ];
+        return is_null($user) === true
+            ? []
+            : [
+                'id'   => $user->getAuthIdentifier(),
+                'rows' => $user->toArray(),
+            ];
     }
 
     /**
@@ -71,10 +77,12 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
     {
         $user = $this->laravel['sentinel']->check();
 
-        return empty($user) === true ? [] : [
-            'id' => null,
-            'rows' => $user->toArray(),
-        ];
+        return empty($user) === true
+            ? []
+            : [
+                'id'   => null,
+                'rows' => $user->toArray(),
+            ];
     }
 
     /**
@@ -83,9 +91,9 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
      * @param array $attributes
      * @return array
      */
-    protected function identifier($attributes = [])
+    protected function identifier(array $attributes = []): array
     {
-        $id = Arr::get($attributes, 'id');
+        $id   = Arr::get($attributes, 'id');
         $rows = Arr::get($attributes, 'rows', []);
 
         if (empty($rows) === true) {
@@ -101,7 +109,7 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
         }
 
         return [
-            'id' => $id,
+            'id'   => $id,
             'rows' => $rows,
         ];
     }

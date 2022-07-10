@@ -1,13 +1,18 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Exceptions;
 
+use EvoNext\Tracy\DebuggerManager;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use EvoNext\Tracy\DebuggerManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,30 +20,13 @@ use Throwable;
 
 class Handler implements ExceptionHandler
 {
-    /**
-     * app exception handler.
-     *
-     * @var ExceptionHandler
-     */
-    protected $exceptionHandler;
+    protected ExceptionHandler $exceptionHandler;
+    protected DebuggerManager  $debuggerManager;
 
-    /**
-     * $debuggerManager.
-     *
-     * @var DebuggerManager
-     */
-    protected $debuggerManager;
-
-    /**
-     * __construct.
-     *
-     * @param ExceptionHandler $exceptionHandler
-     * @param DebuggerManager $debuggerManager
-     */
     public function __construct(ExceptionHandler $exceptionHandler, DebuggerManager $debuggerManager)
     {
         $this->exceptionHandler = $exceptionHandler;
-        $this->debuggerManager = $debuggerManager;
+        $this->debuggerManager  = $debuggerManager;
     }
 
     /**
@@ -46,7 +34,6 @@ class Handler implements ExceptionHandler
      *
      * @param Throwable $e
      * @return void
-     *
      * @throws Exception
      * @throws Throwable
      */
@@ -72,7 +59,6 @@ class Handler implements ExceptionHandler
      * @param Request $request
      * @param Throwable $e
      * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @throws Throwable
      */
     public function render($request, Throwable $e)
@@ -80,7 +66,7 @@ class Handler implements ExceptionHandler
         $response = $this->exceptionHandler->render($request, $e);
 
         if ($this->shouldRenderException($response) === true) {
-            $_SERVER = (array) $request->server();
+            $_SERVER = (array)$request->server();
             $response->setContent($this->debuggerManager->exceptionHandler($e));
         }
 

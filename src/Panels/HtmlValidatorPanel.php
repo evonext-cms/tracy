@@ -1,24 +1,21 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
 use DOMDocument;
-use LibXMLError;
 use EvoNext\Tracy\Contracts\IAjaxPanel;
 use EvoNext\Tracy\Events\BeforeBarRender;
+use LibXMLError;
 
 class HtmlValidatorPanel extends AbstractSubscribePanel implements IAjaxPanel
 {
     /**
-     * $html.
-     *
-     * @var string
-     */
-    protected $html;
-
-    /**
      * $ignoreErrors.
-     *
      * @var array
      */
     protected static $ignoreErrors = [
@@ -27,17 +24,20 @@ class HtmlValidatorPanel extends AbstractSubscribePanel implements IAjaxPanel
         // XML_HTML_UNKNOWN_TAG
         801,
     ];
-
     /**
      * $severenity.
-     *
      * @var array
      */
     protected static $severenity = [
         LIBXML_ERR_WARNING => 'Warning',
-        LIBXML_ERR_ERROR => 'Error',
-        LIBXML_ERR_FATAL => 'Fatal error',
+        LIBXML_ERR_ERROR   => 'Error',
+        LIBXML_ERR_FATAL   => 'Fatal error',
     ];
+    /**
+     * $html.
+     * @var string
+     */
+    protected $html;
 
     /**
      * setHTML.
@@ -50,6 +50,48 @@ class HtmlValidatorPanel extends AbstractSubscribePanel implements IAjaxPanel
         $this->html = $html;
 
         return $this;
+    }
+
+    /**
+     * getAttributes.
+     *
+     * @return array
+     */
+    protected function getAttributes(): array
+    {
+        libxml_use_internal_errors(true);
+        $dom                      = new DOMDocument('1.0', 'UTF-8');
+        $dom->resolveExternals    = false;
+        $dom->validateOnParse     = true;
+        $dom->preserveWhiteSpace  = false;
+        $dom->strictErrorChecking = true;
+        $dom->recover             = true;
+
+        @$dom->loadHTML($this->normalize($this->html));
+
+        $errors = array_filter(libxml_get_errors(), function (LibXMLError $error) {
+            return in_array((int)$error->code, static::$ignoreErrors, true) === false;
+        });
+
+        libxml_clear_errors();
+
+        return [
+            'severenity' => static::$severenity,
+            'counter'    => count($errors),
+            'errors'     => $errors,
+            'html'       => $this->html,
+        ];
+    }
+
+    /**
+     * subscribe.
+     **/
+    protected function subscribe()
+    {
+        $events = $this->laravel['events'];
+        $events->listen(BeforeBarRender::class, function ($barRender) {
+            $this->setHtml($barRender->response->getContent());
+        });
     }
 
     /**
@@ -80,47 +122,5 @@ class HtmlValidatorPanel extends AbstractSubscribePanel implements IAjaxPanel
     protected static function normalizeNewLines($s)
     {
         return str_replace(["\r\n", "\r"], "\n", $s);
-    }
-
-    /**
-     * getAttributes.
-     *
-     * @return array
-     */
-    protected function getAttributes()
-    {
-        libxml_use_internal_errors(true);
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->resolveExternals = false;
-        $dom->validateOnParse = true;
-        $dom->preserveWhiteSpace = false;
-        $dom->strictErrorChecking = true;
-        $dom->recover = true;
-
-        @$dom->loadHTML($this->normalize($this->html));
-
-        $errors = array_filter(libxml_get_errors(), function (LibXMLError $error) {
-            return in_array((int) $error->code, static::$ignoreErrors, true) === false;
-        });
-
-        libxml_clear_errors();
-
-        return [
-            'severenity' => static::$severenity,
-            'counter' => count($errors),
-            'errors' => $errors,
-            'html' => $this->html,
-        ];
-    }
-
-    /**
-     * subscribe.
-     **/
-    protected function subscribe()
-    {
-        $events = $this->laravel['events'];
-        $events->listen(BeforeBarRender::class, function ($barRender) {
-            $this->setHtml($barRender->response->getContent());
-        });
     }
 }

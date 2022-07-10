@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
@@ -7,27 +12,16 @@ use PDO;
 
 class Helper
 {
-    /**
-     * KEYWORDS1.
-     *
-     * @var string
-     */
     const KEYWORDS1 = 'SELECT|(?:ON\s+DUPLICATE\s+KEY)?UPDATE|INSERT(?:\s+INTO)?|REPLACE(?:\s+INTO)?|DELETE|CALL|UNION|FROM|WHERE|HAVING|GROUP\s+BY|ORDER\s+BY|LIMIT|OFFSET|SET|VALUES|LEFT\s+JOIN|INNER\s+JOIN|TRUNCATE';
 
-    /**
-     * KEYWORDS2.
-     *
-     * @var string
-     */
     const KEYWORDS2 = 'ALL|DISTINCT|DISTINCTROW|IGNORE|AS|USING|ON|AND|OR|IN|IS|NOT|NULL|[RI]?LIKE|REGEXP|TRUE|FALSE';
 
     /**
      * Returns syntax highlighted SQL command.
      *
-     *
      * @param string $sql
      * @param array $bindings
-     * @param \PDO $pdo
+     * @param \PDO|null $pdo
      * @return string
      */
     public static function highlight($sql, array $bindings = [], PDO $pdo = null)
@@ -41,14 +35,16 @@ class Helper
 
         // syntax highlight
         $sql = htmlspecialchars($sql, ENT_IGNORE, 'UTF-8');
-        $sql = preg_replace_callback('#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])('.static::KEYWORDS1.')(?=[\\s,)])|(?<=[\\s,(=])('.static::KEYWORDS2.')(?=[\\s,)=])#is', function ($matches) {
-            if (! empty($matches[1])) { // comment
+        $sql = preg_replace_callback('#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])('.static::KEYWORDS1.')(?=[\\s,)])|(?<=[\\s,(=])('.static::KEYWORDS2.')(?=[\\s,)=])#is', function (
+            $matches
+        ) {
+            if (!empty($matches[1])) { // comment
                 return '<em style="color:gray">'.$matches[1].'</em>';
-            } elseif (! empty($matches[2])) { // error
+            } elseif (!empty($matches[2])) { // error
                 return '<strong style="color:red">'.$matches[2].'</strong>';
-            } elseif (! empty($matches[3])) { // most important keywords
+            } elseif (!empty($matches[3])) { // most important keywords
                 return '<strong style="color:blue; text-transform: uppercase;">'.$matches[3].'</strong>';
-            } elseif (! empty($matches[4])) { // other keywords
+            } elseif (!empty($matches[4])) { // other keywords
                 return '<strong style="color:green">'.$matches[4].'</strong>';
             }
         }, $sql);
@@ -88,7 +84,7 @@ class Helper
 
             return htmlspecialchars($binding, ENT_NOQUOTES, 'UTF-8');
         }, $bindings);
-        $sql = str_replace(['%', '?'], ['%%', '%s'], $sql);
+        $sql      = str_replace(['%', '?'], ['%%', '%s'], $sql);
 
         return '<div><code>'.nl2br(trim(vsprintf($sql, $bindings))).'</code></div>';
     }

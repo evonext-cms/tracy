@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
@@ -24,14 +29,14 @@ class TerminalPanel extends AbstractPanel
      *
      * @return array
      */
-    protected function getAttributes()
+    protected function getAttributes(): array
     {
         $terminal = null;
         if ($this->hasLaravel() === true) {
             try {
                 $controller = $this->laravel->make(TerminalController::class);
-                $response = $this->laravel->call([$controller, 'index'], ['view' => 'panel']);
-                $terminal = $response->getContent();
+                $response   = $this->laravel->call([$controller, 'index'], ['view' => 'panel']);
+                $terminal   = $response->getContent();
             } catch (Exception $e) {
                 $terminal = $e->getMessage();
             }

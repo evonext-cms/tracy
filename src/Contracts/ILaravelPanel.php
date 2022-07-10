@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Contracts;
 
@@ -9,7 +14,7 @@ interface ILaravelPanel
     /**
      * setLaravel.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $laravel
+     * @param \Illuminate\Contracts\Foundation\Application|null $laravel
      * @return static
      */
     public function setLaravel(Application $laravel = null);

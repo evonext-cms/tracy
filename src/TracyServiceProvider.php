@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy;
 
@@ -7,7 +12,6 @@ use EvoNext\Tracy\Exceptions\HandlerForLaravel6;
 use EvoNext\Tracy\Middleware\RenderBar;
 use EvoNext\Tracy\Session\DeferredContent;
 use EvoNext\Tracy\Session\Session;
-use EvoNext\Tracy\TerminalServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Contracts\View\Factory as View;
@@ -90,9 +94,9 @@ class TracyServiceProvider extends ServiceProvider
 
         $config = Arr::get($this->app['config'], 'tracy');
 
-        if (Arr::get($config, 'panels.terminal') === true) {
-            $this->app->register(TerminalServiceProvider::class);
-        }
+        // if (Arr::get($config, 'panels.terminal') === true) {
+        //     $this->app->register(TerminalServiceProvider::class);
+        // }
 
         $this->app->bind(BlueScreen::class, function () {
             return Debugger::getBlueScreen();

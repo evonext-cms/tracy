@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
@@ -27,12 +32,12 @@ class EventPanel extends AbstractSubscribePanel implements IAjaxPanel
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return [
-            'counter' => $this->counter,
+            'counter'   => $this->counter,
             'totalTime' => $this->totalTime,
-            'events' => $this->events,
+            'events'    => $this->events,
         ];
     }
 
@@ -47,18 +52,18 @@ class EventPanel extends AbstractSubscribePanel implements IAjaxPanel
 
         if (version_compare($this->laravel->version(), 5.4, '>=') === true) {
             $events->listen('*', function ($key, $payload) use ($id) {
-                $execTime = Debugger::timer($id);
-                $editorLink = static::editorLink(static::findSource());
+                $execTime        = Debugger::timer($id);
+                $editorLink      = static::editorLink(static::findSource());
                 $this->totalTime += $execTime;
-                $this->events[] = compact('execTime', 'key', 'payload', 'editorLink');
+                $this->events[]  = compact('execTime', 'key', 'payload', 'editorLink');
             });
         } else {
             $events->listen('*', function ($payload) use ($id, $events) {
-                $execTime = Debugger::timer($id);
-                $key = $events->firing();
-                $editorLink = static::editorLink(static::findSource());
+                $execTime        = Debugger::timer($id);
+                $key             = $events->firing();
+                $editorLink      = static::editorLink(static::findSource());
                 $this->totalTime += $execTime;
-                $this->events[] = compact('execTime', 'key', 'payload', 'editorLink');
+                $this->events[]  = compact('execTime', 'key', 'payload', 'editorLink');
             });
         }
     }

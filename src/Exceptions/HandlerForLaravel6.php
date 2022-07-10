@@ -1,43 +1,32 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Exceptions;
 
+use EvoNext\Tracy\DebuggerManager;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use EvoNext\Tracy\DebuggerManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Throwable;
 
 class HandlerForLaravel6 implements ExceptionHandler
 {
-    /**
-     * app exception handler.
-     *
-     * @var ExceptionHandler
-     */
-    protected $exceptionHandler;
+    protected ExceptionHandler $exceptionHandler;
+    protected DebuggerManager  $debuggerManager;
 
-    /**
-     * $debuggerManager.
-     *
-     * @var DebuggerManager
-     */
-    protected $debuggerManager;
-
-    /**
-     * __construct.
-     *
-     * @param ExceptionHandler $exceptionHandler
-     * @param DebuggerManager $debuggerManager
-     */
     public function __construct(ExceptionHandler $exceptionHandler, DebuggerManager $debuggerManager)
     {
         $this->exceptionHandler = $exceptionHandler;
-        $this->debuggerManager = $debuggerManager;
+        $this->debuggerManager  = $debuggerManager;
     }
 
     /**
@@ -45,8 +34,9 @@ class HandlerForLaravel6 implements ExceptionHandler
      *
      * @param Exception $e
      * @return void
+     * @throws \Throwable
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         $this->exceptionHandler->report($e);
     }
@@ -57,7 +47,7 @@ class HandlerForLaravel6 implements ExceptionHandler
      * @param Exception $e
      * @return bool
      */
-    public function shouldReport(Exception $e)
+    public function shouldReport(Throwable $e)
     {
         return $this->exceptionHandler->shouldReport($e);
     }
@@ -68,10 +58,9 @@ class HandlerForLaravel6 implements ExceptionHandler
      * @param Request $request
      * @param Exception $e
      * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws Exception
+     * @throws \Throwable
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         $response = $this->exceptionHandler->render($request, $e);
 
@@ -90,7 +79,7 @@ class HandlerForLaravel6 implements ExceptionHandler
      * @param Exception $e
      * @return void
      */
-    public function renderForConsole($output, Exception $e)
+    public function renderForConsole($output, Throwable $e)
     {
         $this->exceptionHandler->renderForConsole($output, $e);
     }

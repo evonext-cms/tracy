@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
@@ -7,9 +12,7 @@ use Illuminate\Contracts\Foundation\Application;
 abstract class AbstractSubscribePanel extends AbstractPanel
 {
     /**
-     * setLaravel.
-     *
-     * @param Application $laravel
+     * @param Application|null $laravel
      * @return $this
      */
     public function setLaravel(Application $laravel = null)
@@ -22,8 +25,5 @@ abstract class AbstractSubscribePanel extends AbstractPanel
         return $this;
     }
 
-    /**
-     * subscribe.
-     */
     abstract protected function subscribe();
 }

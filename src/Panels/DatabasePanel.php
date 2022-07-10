@@ -1,11 +1,16 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
 use PDO;
-use EvoNext\Tracy\Contracts\IAjaxPanel;
 
 class DatabasePanel extends AbstractSubscribePanel implements IAjaxPanel
 {
@@ -37,18 +42,18 @@ class DatabasePanel extends AbstractSubscribePanel implements IAjaxPanel
     {
         $this->counter++;
         $this->totalTime += $time;
-        $source = static::findSource();
-        $editorLink = static::editorLink($source);
+        $source          = static::findSource();
+        $editorLink      = static::editorLink($source);
         $this->queries[] = [
-            'sql' => $sql,
-            'bindings' => $bindings,
-            'time' => $time,
-            'name' => $name,
-            'pdo' => $pdo,
-            'driver' => $driver,
-            'source' => $source,
+            'sql'        => $sql,
+            'bindings'   => $bindings,
+            'time'       => $time,
+            'name'       => $name,
+            'pdo'        => $pdo,
+            'driver'     => $driver,
+            'source'     => $source,
             'editorLink' => $editorLink,
-            'highlight' => null,
+            'highlight'  => null,
         ];
 
         return $this;
@@ -88,25 +93,25 @@ class DatabasePanel extends AbstractSubscribePanel implements IAjaxPanel
      *
      * @return array
      */
-    protected function getAttributes()
+    protected function getAttributes(): array
     {
         $queries = [];
         foreach ($this->queries as $query) {
-            $sql = $query['sql'];
+            $sql      = $query['sql'];
             $bindings = $query['bindings'];
-            $pdo = $query['pdo'];
-            $driver = $query['driver'];
-            $version = 0;
+            $pdo      = $query['pdo'];
+            $driver   = $query['driver'];
+            $version  = 0;
 
             $highlight = Helper::highlight($sql, $bindings, $pdo);
-            $explains = [];
-            $hints = [];
+            $explains  = [];
+            $hints     = [];
             if ($pdo instanceof PDO) {
                 $driver = $this->getDatabaseDriver($pdo);
                 if ($driver === 'mysql') {
-                    $version = $this->getDatabaseVersion($pdo);
+                    $version  = $this->getDatabaseVersion($pdo);
                     $explains = Helper::explain($pdo, $sql, $bindings);
-                    $hints = Helper::performQueryAnalysis($sql, $version, $driver);
+                    $hints    = Helper::performQueryAnalysis($sql, $version, $driver);
                 }
             }
 
@@ -114,9 +119,9 @@ class DatabasePanel extends AbstractSubscribePanel implements IAjaxPanel
         }
 
         return [
-            'counter' => $this->counter,
+            'counter'   => $this->counter,
             'totalTime' => $this->totalTime,
-            'queries' => $queries,
+            'queries'   => $queries,
         ];
     }
 

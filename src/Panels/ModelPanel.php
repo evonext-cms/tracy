@@ -1,9 +1,14 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
-use Illuminate\Support\Str;
 use EvoNext\Tracy\Contracts\IAjaxPanel;
+use Illuminate\Support\Str;
 
 class ModelPanel extends AbstractSubscribePanel implements IAjaxPanel
 {
@@ -25,7 +30,7 @@ class ModelPanel extends AbstractSubscribePanel implements IAjaxPanel
         $events->listen('eloquent.*', function ($event, $models) {
             if (Str::contains($event, 'eloquent.retrieved')) {
                 foreach ($models as $model) {
-                    $class = get_class($model);
+                    $class                = get_class($model);
                     $this->models[$class] = ($this->models[$class] ?? 0) + 1;
                     $this->total++;
                 }
@@ -38,10 +43,10 @@ class ModelPanel extends AbstractSubscribePanel implements IAjaxPanel
      *
      * @return array
      */
-    protected function getAttributes()
+    protected function getAttributes(): array
     {
         return [
-            'total' => $this->total,
+            'total'  => $this->total,
             'models' => $this->models,
         ];
     }

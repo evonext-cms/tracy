@@ -1,4 +1,9 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +16,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/bar', [
-    'as' => 'bar',
+    'as'   => 'bar',
     'uses' => 'LaravelTracyController@bar',
 ]);

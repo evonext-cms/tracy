@@ -1,22 +1,25 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
+use EvoNext\Tracy\Contracts\IAjaxPanel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use EvoNext\Tracy\Contracts\IAjaxPanel;
 
 class ViewPanel extends AbstractSubscribePanel implements IAjaxPanel
 {
     /**
      * $limit.
-     *
      * @var int
      */
     public $limit = 50;
     /**
      * $views.
-     *
      * @var array
      */
     protected $views = [];
@@ -38,9 +41,21 @@ class ViewPanel extends AbstractSubscribePanel implements IAjaxPanel
     }
 
     /**
+     * getAttributes.
+     *
+     * @return array
+     */
+    protected function getAttributes(): array
+    {
+        return [
+            'rows' => $this->views,
+        ];
+    }
+
+    /**
      * logView.
      *
-     * @param  \Illuminate\Contracts\View\View
+     * @param \Illuminate\Contracts\View\View
      * @return string
      */
     protected function logView($view)
@@ -49,7 +64,7 @@ class ViewPanel extends AbstractSubscribePanel implements IAjaxPanel
         $data = $this->limitCollection(Arr::except($view->getData(), ['__env', 'app']));
         $path = static::editorLink($view->getPath());
         preg_match('/href=\"(.+)\"/', $path, $m);
-        $path = (count($m) > 1) ? '(<a href="'.$m[1].'">source</a>)' : '';
+        $path          = (count($m) > 1) ? '(<a href="'.$m[1].'">source</a>)' : '';
         $this->views[] = compact('name', 'data', 'path');
     }
 
@@ -75,17 +90,5 @@ class ViewPanel extends AbstractSubscribePanel implements IAjaxPanel
         }
 
         return $results;
-    }
-
-    /**
-     * getAttributes.
-     *
-     * @return array
-     */
-    protected function getAttributes()
-    {
-        return [
-            'rows' => $this->views,
-        ];
     }
 }

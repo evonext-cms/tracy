@@ -1,33 +1,38 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 return [
-    'enabled' => env('APP_DEBUG') === true,
-    'showBar' => env('APP_ENV') !== 'production',
+    'enabled'       => env('APP_DEBUG') === true,
+    'showBar'       => env('APP_ENV') !== 'production',
     'showException' => true,
-    'route' => [
+    'route'         => [
         'prefix' => 'tracy',
-        'as' => 'tracy.',
+        'as'     => 'tracy.',
     ],
-    'accepts' => [
+    'accepts'       => [
         'text/html',
     ],
-    'appendTo' => 'body',
-    'editor' => 'subl://open?url=file://%file&line=%line',
-    'maxDepth' => 4,
-    'maxLength' => 1000,
-    'scream' => true,
-    'showLocation' => true,
-    'strictMode' => true,
+    'appendTo'      => 'body',
+    'editor'        => 'subl://open?url=file://%file&line=%line',
+    'maxDepth'      => 4,
+    'maxLength'     => 1000,
+    'scream'        => true,
+    'showLocation'  => true,
+    'strictMode'    => true,
     'editorMapping' => [],
-    'panels' => [
-        'routing' => true,
-        'database' => true,
-        'view' => true,
-        'event' => false,
-        'session' => true,
-        'request' => true,
-        'auth' => true,
+    'panels'        => [
+        'routing'        => true,
+        'database'       => true,
+        'view'           => true,
+        'event'          => false,
+        'session'        => true,
+        'request'        => true,
+        'auth'           => true,
         'html-validator' => false,
-        'terminal' => true,
+        'terminal'       => true,
     ],
 ];

@@ -1,12 +1,15 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Middleware;
 
-use Closure;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Http\Request;
 use EvoNext\Tracy\DebuggerManager;
 use EvoNext\Tracy\Events\BeforeBarRender;
+use Illuminate\Contracts\Events\Dispatcher;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,32 +17,20 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RenderBar
 {
-    /**
-     * @var DebuggerManager
-     */
-    private $debuggerManager;
-    /**
-     * @var Dispatcher
-     */
-    private $events;
+    private DebuggerManager $debuggerManager;
+    private Dispatcher      $events;
 
-    /**
-     * __construct.
-     *
-     * @param DebuggerManager $debuggerManager
-     * @param Dispatcher $events
-     */
     public function __construct(DebuggerManager $debuggerManager, Dispatcher $events)
     {
         $this->debuggerManager = $debuggerManager;
-        $this->events = $events;
+        $this->events          = $events;
     }
 
     /**
      * handle.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return Response
      */
     public function handle($request, $next)
@@ -52,8 +43,8 @@ class RenderBar
     /**
      * keepFlashSession.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return Response
      */
     private function keepFlashSession($request, $next)
@@ -69,8 +60,8 @@ class RenderBar
     /**
      * render.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return Response
      */
     private function render($request, $next)
@@ -100,7 +91,6 @@ class RenderBar
      *
      * @param Response $response
      * @param bool $ajax
-     *
      * @return bool
      */
     private function reject(Response $response, $ajax)
@@ -118,7 +108,7 @@ class RenderBar
         }
 
         $contentType = strtolower($response->headers->get('Content-Type'));
-        $accepts = $this->debuggerManager->accepts();
+        $accepts     = $this->debuggerManager->accepts();
         if ((empty($contentType) === true && $response->getStatusCode() >= 400) ||
             count($accepts) === 0
         ) {

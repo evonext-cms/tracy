@@ -1,7 +1,12 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
-namespace EvoNext\Tracy
-{
+namespace EvoNext\Tracy {
+
     if (function_exists('escapeshellarg') === true) {
         function escapeshellarg($input)
         {
@@ -17,8 +22,8 @@ namespace EvoNext\Tracy
     }
 }
 
-namespace Tracy
-{
+namespace Tracy {
+
     function escapeshellarg($input)
     {
         return \EvoNext\Tracy\escapeshellarg($input);

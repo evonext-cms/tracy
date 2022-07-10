@@ -1,46 +1,36 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
-use Illuminate\Contracts\Foundation\Application;
 use EvoNext\Tracy\Contracts\ILaravelPanel;
 use EvoNext\Tracy\Template;
+use Illuminate\Contracts\Foundation\Application;
 use Tracy\Helpers;
 use Tracy\IBarPanel;
 
 abstract class AbstractPanel implements IBarPanel, ILaravelPanel
 {
-    /**
-     * @var mixed
-     */
-    private $attributes;
-    /**
-     * @var string
-     */
-    private $viewPath;
-    /**
-     * @var Template
-     */
-    protected $template;
-    /**
-     * @var Application
-     */
-    protected $laravel;
+    protected Template    $template;
+    protected Application $laravel;
 
-    /**
-     * __construct.
-     *
-     * @param Template $template
-     */
+    /** @var mixed */
+    private array   $attributes;
+    private ?string $viewPath = null;
+
     public function __construct(Template $template = null)
     {
-        $this->template = $template ?: new Template;
+        $this->template = $template ?: new Template();
     }
 
     /**
      * setLaravel.
      *
-     * @param Application $laravel
+     * @param Application|null $laravel
      * @return $this
      */
     public function setLaravel(Application $laravel = null)
@@ -88,7 +78,7 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
      * @param string $view
      * @return string
      */
-    protected function render($view)
+    protected function render(string $view)
     {
         $view = $this->getViewPath().$view.'.php';
         if (empty($this->attributes) === true) {
@@ -99,6 +89,8 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
 
         return $this->template->render($view);
     }
+
+    abstract protected function getAttributes(): array;
 
     /**
      * getViewPath.
@@ -115,13 +107,6 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
     }
 
     /**
-     * getAttributes.
-     *
-     * @return array
-     */
-    abstract protected function getAttributes();
-
-    /**
      * Use a backtrace to search for the origin of the query.
      *
      * @return string|array
@@ -129,7 +114,7 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
     protected static function findSource()
     {
         $source = '';
-        $trace = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+        $trace  = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
         foreach ($trace as $row) {
             if (isset($row['file']) === false) {
                 continue;
@@ -140,13 +125,13 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
             }
 
             if (isset($row['class']) === true && (
-                is_subclass_of($row['class'], IBarPanel::class) === true ||
+                    is_subclass_of($row['class'], IBarPanel::class) === true ||
                     strpos(str_replace('/', '\\', $row['file']), 'Illuminate\\') !== false
-            )) {
+                )) {
                 continue;
             }
 
-            $source = [$row['file'], (int) $row['line']];
+            $source = [$row['file'], (int)$row['line']];
         }
 
         return $source;
@@ -164,7 +149,7 @@ abstract class AbstractPanel implements IBarPanel, ILaravelPanel
             $file = $source;
             $line = null;
         } else {
-            list($file, $line) = $source;
+            [$file, $line] = $source;
         }
 
         return Helpers::editorLink($file, $line);

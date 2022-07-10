@@ -1,9 +1,14 @@
 <?php
+/*
+ EvoNext CMS Tracy
+ Copyright (c) 2022
+ Licensed under MIT License
+ */
 
 namespace EvoNext\Tracy\Panels;
 
-use Illuminate\Support\Arr;
 use EvoNext\Tracy\Contracts\IAjaxPanel;
+use Illuminate\Support\Arr;
 
 class RoutingPanel extends AbstractPanel implements IAjaxPanel
 {
@@ -12,11 +17,11 @@ class RoutingPanel extends AbstractPanel implements IAjaxPanel
      *
      * @return array
      */
-    protected function getAttributes()
+    protected function getAttributes(): array
     {
         $rows = ['uri' => 404];
         if ($this->hasLaravel() === true) {
-            $router = $this->laravel['router'];
+            $router       = $this->laravel['router'];
             $currentRoute = $router->getCurrentRoute();
             if (is_null($currentRoute) === false) {
                 $rows = array_merge([
