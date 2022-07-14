@@ -1,4 +1,4 @@
-<h1><?php echo empty($rows) === false ? 'Logged in' : 'Unlogged' ?></h1>
+<h1><?php echo empty($rows) === false ? 'Logged in' : 'Unauthenticated' ?></h1>
 
 <div class="tracy-inner Laravel-AuthPanel">
     <div class="tracy-inner-container">
