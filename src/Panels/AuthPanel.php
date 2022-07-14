@@ -100,7 +100,7 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
             $id = 'Guest';
         } elseif (is_numeric($id) === true || empty($id) === true) {
             $id = 'UnKnown';
-            foreach (['username', 'account', 'email', 'name', 'id'] as $key) {
+            foreach (['name', 'email', 'id'] as $key) {
                 if (isset($rows[$key]) === true) {
                     $id = $rows[$key];
                     break;
