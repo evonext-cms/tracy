@@ -57,8 +57,7 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
      */
     protected function fromGuard()
     {
-        $auth = $this->laravel['auth'];
-        $user = $auth->user();
+        $user = $this->user();
 
         return is_null($user) === true
             ? []
@@ -93,8 +92,11 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
      */
     protected function identifier(array $attributes = []): array
     {
-        $id   = Arr::get($attributes, 'id');
-        $rows = Arr::get($attributes, 'rows', []);
+        $id      = Arr::get($attributes, 'id');
+        $rows    = Arr::get($attributes, 'rows', []);
+        $roles   = Arr::get($attributes, 'roles', []);
+        $perms   = Arr::get($attributes, 'perms', []);
+        $isAdmin = Arr::get($attributes, 'isAdmin', false);
 
         if (empty($rows) === true) {
             $id = 'Guest';
@@ -108,9 +110,36 @@ class AuthPanel extends AbstractPanel implements IAjaxPanel
             }
         }
 
+        if ($this->user()) {
+            $roles = $this->user()
+                ->roles()
+                ->get()
+                ->mapWithKeys(fn($item) => [$item['name'] => $item['description']])
+                ->toArray();
+
+            $perms = $this->user()
+                ->allPermissions()
+                ->mapWithKeys(fn($item) => [$item['slug'] => $item['name']])
+                ->toArray();
+
+            $isAdmin = $this->user()->hasRole(1);
+        }
+
+
         return [
-            'id'   => $id,
-            'rows' => $rows,
+            'id'      => $id,
+            'rows'    => $rows,
+            'roles'   => $roles,
+            'perms'   => $perms,
+            'isAdmin' => $isAdmin,
         ];
+    }
+
+    /**
+     * @return \Core\Models\User
+     */
+    protected function user()
+    {
+        return $this->laravel['auth']->user();
     }
 }
