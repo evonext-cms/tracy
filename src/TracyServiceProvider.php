@@ -189,7 +189,7 @@ class TracyServiceProvider extends ServiceProvider
     {
         if (is_null($this->isBackend)) {
             $managerPrefix   = $this->app['config']->get('tracy.managerPrefix');
-            $this->isBackend = preg_match('~^/'.$managerPrefix.'~', $this->app['request']->getRequestUri());
+            $this->isBackend = preg_match('~^/'.$managerPrefix.'/~', $this->app['request']->getRequestUri());
         }
 
         return $this->isBackend;
